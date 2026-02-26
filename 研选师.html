@@ -1,0 +1,700 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>研选师 · 超详细个性特质测评</title>
+    <!-- Font Awesome 6 (免费图标) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'PingFang SC', Roboto, system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #f0f7ff 0%, #e6f0fa 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items:flex-start;
+            padding: 20px 12px;
+        }
+        .page-container {
+            max-width: 520px;
+            width: 100%;
+            background-color: rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(20, 50, 80, 0.2);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .inner-card {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 20px;
+            margin: 12px;
+            box-shadow: 0 8px 20px rgba(0,20,40,0.05);
+        }
+        h1 {
+            font-size: 28px;
+            color: #1e3c72;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .subhead {
+            color: #4a6a8b;
+            font-size: 14px;
+            border-left: 4px solid #ffb25b;
+            padding-left: 16px;
+            margin-bottom: 24px;
+            background: #fef8f0;
+            border-radius: 0 20px 20px 0;
+            line-height: 1.5;
+        }
+        .question-block {
+            background: #f9fcff;
+            border-radius: 28px;
+            padding: 18px 16px;
+            margin-bottom: 16px;
+            border: 1px solid #e2edff;
+            transition: all 0.15s;
+        }
+        .q-title {
+            font-weight: 600;
+            color: #122b44;
+            margin-bottom: 14px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .q-num {
+            background: #1e3c72;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-item {
+            background: white;
+            border-radius: 40px;
+            padding: 12px 18px;
+            border: 1px solid #dbe6f2;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.1s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+        }
+        .option-item.selected {
+            border: 2px solid #1e3c72;
+            background: #edf5ff;
+            box-shadow: 0 6px 12px rgba(30,60,114,0.1);
+        }
+        .option-item input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #b0c8e0;
+            border-radius: 50%;
+            margin-right: 16px;
+            position: relative;
+            transition: 0.1s;
+        }
+        .option-item input[type="radio"]:checked {
+            border-color: #1e3c72;
+            background: #1e3c72;
+            box-shadow: inset 0 0 0 5px white;
+        }
+        .option-text {
+            flex: 1;
+            font-size: 15px;
+            color: #1f2e46;
+        }
+        .btn-primary {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            padding: 18px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 12px 20px rgba(30,60,114,0.3);
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+            background: #163158;
+        }
+        .btn-secondary {
+            background: white;
+            border: 1.5px solid #1e3c72;
+            color: #1e3c72;
+            border-radius: 40px;
+            padding: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        /* 报告样式 */
+        .report-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .report-card {
+            background: #f9fcff;
+            border-radius: 28px;
+            padding: 18px;
+            border: 1px solid #e2edff;
+        }
+        .badge-large {
+            background: linear-gradient(145deg, #ffffff, #f0f7ff);
+            border-radius: 36px;
+            padding: 24px 20px;
+            box-shadow: inset 0 -2px 0 #d9e5f0;
+        }
+        .mbti-display {
+            font-size: 52px;
+            font-weight: 800;
+            color: #122b44;
+            letter-spacing: 6px;
+            line-height: 1;
+        }
+        .pill-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 16px 0;
+        }
+        .pill {
+            background: #e1eaf5;
+            border-radius: 40px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .color-dot {
+            width: 48px;
+            height: 48px;
+            border-radius: 48px;
+            background: #7a5f4b;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .animal-icon {
+            font-size: 48px;
+            filter: drop-shadow(2px 6px 8px rgba(0,0,0,0.1));
+        }
+        .progress-chart {
+            background: #f2f7ff;
+            border-radius: 28px;
+            padding: 18px;
+        }
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .bar-label {
+            width: 90px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .bar-bg {
+            flex: 1;
+            height: 18px;
+            background: #d6e2f0;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3d6cb0, #1e3c72);
+            border-radius: 30px;
+            width: 0%;
+        }
+        .match-tag {
+            background: #1e3c72;
+            color: white;
+            border-radius: 30px;
+            padding: 6px 14px;
+            display: inline-block;
+            font-size: 13px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        .insight-box {
+            background: white;
+            border-radius: 24px;
+            padding: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            margin-top: 12px;
+        }
+        .mini-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .mini-card {
+            background: white;
+            border-radius: 20px;
+            padding: 14px;
+            border: 1px solid #eaf0f8;
+        }
+        .quote {
+            font-style: italic;
+            color: #3a5670;
+            background: #ecf3fa;
+            border-radius: 20px;
+            padding: 14px;
+            margin: 12px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .footer-note {
+            color: #6b85a4;
+            font-size: 13px;
+            text-align: center;
+            margin: 16px 0 8px;
+        }
+        hr {
+            border: 1px solid #e1ecf9;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="page-container" id="app">
+    <div class="inner-card" id="quizSection">
+        <h1><i class="fas fa-compass" style="color: #ff9f4b;"></i> 研选师</h1>
+        <div class="subhead">青少年研学个性特质测评 · 15题<br>从认知·情绪双维度为你精准画像</div>
+        <!-- 问卷动态插入 -->
+        <div id="quizContainer"></div>
+        <button class="btn-primary" id="submitQuiz"><i class="fas fa-magic"></i> 生成专属报告</button>
+        <div class="footer-note">北二外「研选师」基于教育心理学</div>
+    </div>
+
+    <div class="inner-card hidden" id="reportSection">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <i class="fas fa-crown" style="color: #f5b342; font-size: 28px;"></i>
+            <h2 style="color:#1e3c72; font-size: 24px;">你的研学超详细报告</h2>
+        </div>
+        <div id="reportContent" class="report-grid"></div>
+        <button class="btn-secondary" id="restartQuiz"><i class="fas fa-redo-alt"></i> 重新测评</button>
+        <div style="text-align: center; margin: 20px 0 8px;">
+            <i class="fas fa-share-alt" style="color:#7f9bc0; background: #eaf1fb; padding: 10px 20px; border-radius: 40px;" onclick="alert('分享给好友，看看TA是什么研学人格～')"> 分享报告</i>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ----- 定义问卷题目 (完整15题，第7题已补全) -----
+        const questions = [
+            {
+                part: '基础适配',
+                text: '1. 你的年龄与学业阶段？',
+                options: ['A.10-12岁，小学高段', 'B.13-15岁，初中段', 'C.16-19岁，高中段']
+            },
+            {
+                text: '2. 你期望的研学知识深度是？',
+                options: ['A.科普体验：重在感知与发现', 'B.探究学习：结合课本实地验证', 'C.课题攻坚：深度调研论文素材']
+            },
+            {
+                text: '3. 你的身体能力更适配哪种研学强度？',
+                options: ['A.轻量舒适：室内场馆为主', 'B.活力适中：短途徒步/手工', 'C.挑战进阶：登山/溯溪/骑行', 'D.特殊备注：有晕车/过敏等限制']
+            },
+            {
+                part: '兴趣与偏好',
+                text: '4. 你最想探索的研学核心领域是？',
+                options: ['A.自然科学：生态/地质/天文', 'B.工程技术：AI/机器人/实验', 'C.人文社科：历史/非遗/规划', 'D.商业传媒：品牌/文旅/创作']
+            },
+            {
+                text: '5. 你更倾向于哪种研学互动形式？',
+                options: ['A.专家讲堂：听大咖深度解析', 'B.任务闯关：游戏化线索解密', 'C.职业模拟：扮演角色完成项目', 'D.圆桌研讨：辩论与深度交流']
+            },
+            {
+                text: '6. 在研学项目中，你最想担任的角色是？',
+                options: ['A.总策划：统筹全局拆解任务', 'B.研究员：资料查阅数据分析', 'C.实践家：动手操作实地采样', 'D.传播者：成果展示对外宣讲']
+            },
+            {
+                text: '7. 以下哪种特色内容最能吸引你报名？',
+                options: ['A. 独家专家讲座+互动', 'B. 沉浸式剧情任务闯关', 'C. 亲手创作可带走的作品', 'D. 获得高含金量证书/推荐信']
+            },
+            {
+                text: '8. 你对研学目的地的偏好是？',
+                options: ['A.科技前沿：科技馆/航天', 'B.人文底蕴：博物馆/古镇', 'C.自然野趣：国家公园/地质', 'D.创意高地：文创园/设计工坊']
+            },
+            {
+                part: '学习风格与MBTI',
+                text: '9. 学习新知识时，你效率最高的方式是？',
+                options: ['A.视觉型：图表/视频', 'B.听觉型：讲解/讨论', 'C.动觉型：亲手操作/体验', 'D.读写型：文献/笔记']
+            },
+            {
+                text: '10. 面对陌生的研学任务，你的第一反应是？',
+                options: ['A.先看细则，按部就班执行', 'B.先探路尝试，灵活调整方案']
+            },
+            {
+                text: '11. 在团队协作中，你主要的能量来源是？',
+                options: ['A.互动激发：头脑风暴中产生灵感', 'B.独立沉淀：先独立思考再分享']
+            },
+            {
+                text: '12. 吸收信息时，你更关注？',
+                options: ['A.事实细节：具体数据/年代', 'B.宏观关联：逻辑/趋势/深层意义']
+            },
+            {
+                text: '13. 团队决策出现分歧时，你更倾向于？',
+                options: ['A.理性裁断：可行性与效率优先', 'B.和谐共赢：成员感受与凝聚力']
+            },
+            {
+                part: '核心诉求',
+                text: '14. 你擅长的研学成果输出形式是？',
+                options: ['A.逻辑类：论文/调查报告', 'B.视觉类：PPT/摄影/手账', 'C.实物类：模型/手工艺品', 'D.动态类：路演/纪录片']
+            },
+            {
+                text: '15. 你参与研学的核心期待是？',
+                options: ['A.开阔视野：见识不一样的世界', 'B.能力跃迁：解决问题/协作/创新', 'C.学业助力：升学素材/竞赛加分']
+            }
+        ];
+
+        // 渲染问卷
+        const quizContainer = document.getElementById('quizContainer');
+        function renderQuiz() {
+            let html = '';
+            questions.forEach((q, idx) => {
+                if (q.part) {
+                    html += `<div style="margin: 8px 0 4px; font-weight: 600; color:#4a6fa5;"><i class="fas fa-star"></i> ${q.part}</div>`;
+                }
+                html += `<div class="question-block" id="q${idx}">`;
+                html += `<div class="q-title"><span class="q-num">${idx+1}</span> ${q.text}</div>`;
+                html += `<div class="options-grid">`;
+                q.options.forEach((opt, optIdx) => {
+                    const optionId = `q${idx}_opt${optIdx}`;
+                    html += `
+                        <div class="option-item" onclick="selectOption('q${idx}', ${optIdx})">
+                            <input type="radio" name="q${idx}" id="${optionId}" value="${optIdx}">
+                            <label for="${optionId}" class="option-text">${opt}</label>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            });
+            quizContainer.innerHTML = html;
+        }
+        renderQuiz();
+
+        // 全局选择函数
+        window.selectOption = function(qName, optIdx) {
+            document.querySelectorAll(`input[name="${qName}"]`).forEach((radio, idx) => {
+                radio.checked = (idx === optIdx);
+                const parent = radio.closest('.option-item');
+                if (parent) {
+                    if (idx === optIdx) parent.classList.add('selected');
+                    else parent.classList.remove('selected');
+                }
+            });
+        };
+
+        // 获取所有答案
+        function getAnswers() {
+            const answers = [];
+            for (let i = 0; i < questions.length; i++) {
+                const radios = document.getElementsByName(`q${i}`);
+                let selectedVal = null;
+                for (let j = 0; j < radios.length; j++) {
+                    if (radios[j].checked) {
+                        selectedVal = j;
+                        break;
+                    }
+                }
+                if (selectedVal === null) {
+                    alert(`请先回答第 ${i+1} 题`);
+                    return null;
+                }
+                answers.push(selectedVal);
+            }
+            return answers;
+        }
+
+        // ----- 扩展报告计算 -----
+        function computeReport(answers) {
+            // 提取MBTI (10-13题索引9,10,11,12)
+            const ie = answers[10] === 0 ? 'E' : 'I';   // 11题
+            const sn = answers[11] === 0 ? 'S' : 'N';   // 12题
+            const tf = answers[12] === 0 ? 'T' : 'F';   // 13题
+            const jp = answers[9] === 0 ? 'J' : 'P';    // 10题
+            const mbti = ie + sn + tf + jp;
+
+            // 动物塑 (基于MBTI)
+            const animalMap = {
+                'ISTJ': { name: '海狸', icon: '🦫', desc: '踏实建造，细节大师，有条不紊' },
+                'ISFJ': { name: '大象', icon: '🐘', desc: '守护传统，温暖可靠，默默支持' },
+                'INFJ': { name: '狼', icon: '🐺', desc: '洞察深远，引领同伴，理想主义' },
+                'INTJ': { name: '鹰', icon: '🦅', desc: '高瞻远瞩，战略家，独立思考' },
+                'ISTP': { name: '猫', icon: '🐈', desc: '冷静操作，动手高手，擅长工具' },
+                'ISFP': { name: '鹿', icon: '🦌', desc: '安静敏感，艺术气质，亲近自然' },
+                'INFP': { name: '蝴蝶', icon: '🦋', desc: '理想主义者，追寻意义，富有创意' },
+                'INTP': { name: '猫头鹰', icon: '🦉', desc: '逻辑思辨，热爱理论，知识渊博' },
+                'ESTP': { name: '狐狸', icon: '🦊', desc: '机敏灵活，冒险家，随机应变' },
+                'ESFP': { name: '水獭', icon: '🦦', desc: '活泼爱玩，社交明星，感染力强' },
+                'ENFP': { name: '海豚', icon: '🐬', desc: '热情创意，鼓舞他人，好奇心强' },
+                'ENTP': { name: '鹦鹉', icon: '🦜', desc: '能言善辩，点子王，热衷挑战' },
+                'ESTJ': { name: '狮子', icon: '🦁', desc: '天生领袖，井然有序，执行力强' },
+                'ESFJ': { name: '马', icon: '🐎', desc: '合作友善，照顾者，责任心强' },
+                'ENFJ': { name: '狗', icon: '🐕', desc: '忠诚激励，教育家，善于沟通' },
+                'ENTJ': { name: '狮鹫', icon: '🦁🔱', desc: '统帅全局，果断，远见卓识' }
+            };
+            let animal = animalMap[mbti] || { name: '变色龙', icon: '🦎', desc: '适应力强，多面手' };
+
+            // 旅行形象 (基于第4题 + 第6题)
+            const field = answers[3]; // 4题: 0自然 1工程 2人文 3商业
+            const role = answers[5];   // 6题: 0策划 1研究 2实践 3传播
+            const travelImages = [
+                ['自然领航员', '生态记录官', '野外探险家', '自然传播大使'],
+                ['科创指挥官', '实验室研究员', '机器人建造师', '科技布道师'],
+                ['人文策展人', '历史考据派', '非遗传承手艺人', '文化讲述者'],
+                ['商业主理人', '数据分析师', '文旅运营官', '新媒体传播官']
+            ];
+            const travelImage = travelImages[field][role];
+
+            // 专属颜色 (基于第3、8题)
+            const intensity = answers[2]; // 0轻量 1活力 2挑战 3特殊
+            const destPref = answers[7];   // 0科技 1人文 2自然 3创意
+            let colorName, colorHex;
+            if (destPref === 0) { colorName = '星际银'; colorHex = '#95b8d9'; }
+            else if (destPref === 1) { colorName = '古城赭'; colorHex = '#b56f4a'; }
+            else if (destPref === 2) { colorName = '森林绿'; colorHex = '#3e7a5c'; }
+            else { colorName = '创意橙'; colorHex = '#f39c5c'; }
+            if (intensity === 2) { colorName = '巅峰蓝'; colorHex = '#1e5f7a'; }
+
+            // 学习风格描述
+            const learnStyle = ['视觉型 📺', '听觉型 🎧', '动觉型 🛠️', '读写型 📚'][answers[8]];
+            // 学习风格具体方式
+            const learnMethod = ['图像观察', '听觉讨论', '动手实操', '文字梳理'][answers[8]];
+
+            // 能量来源描述
+            const energySource = answers[10] === 0 ? '从团队互动中获取能量，喜欢头脑风暴' : '需要独处时间来沉淀思考，安静的环境让你恢复';
+            // 决策偏好
+            const decisionPref = answers[12] === 0 ? '理性客观，优先考虑方案可行性' : '感性和谐，注重团队感受和氛围';
+            // 行动方式
+            const actionStyle = answers[9] === 0 ? '计划型，喜欢按步骤推进' : '探索型，随机应变享受未知';
+
+            // 领域标签
+            const fieldTag = ['自然迷', '科技控', '历史咖', '商业新星'][field];
+
+            // 推荐研学类型 (五大类)
+            const recTypes = [];
+            if (field === 0 || sn === 'N') recTypes.push('🌿 自然科学');
+            if (field === 1 || (ie==='E' && answers[4]!==0)) recTypes.push('🤖 科技实践');
+            if (field === 2 || sn==='S') recTypes.push('🏛️ 人文社科');
+            if (field === 3 || tf==='F') recTypes.push('🎨 艺术创作');
+            if (intensity >= 1 || jp==='P') recTypes.push('⛰️ 户外拓展');
+            const uniqueRec = [...new Set(recTypes)].slice(0,4);
+            while(uniqueRec.length<4) uniqueRec.push('🌍 综合探索');
+
+            // 多维度分数
+            const exploreScore = 60 + answers[0]*5 + (answers[3]===0?20:0) + (answers[14]===0?10:0);
+            const socialScore = (ie==='E'? 80: 50) + (answers[10]===0?10:0) + (answers[4]===1?10:0);
+            const handsOnScore = (answers[5]===2?90:60) + (answers[8]===2?15:0) + (answers[14]===2?10:0);
+            const deepThinkScore = (answers[11]===1?85:60) + (answers[12]===0?10:0) + (answers[1]===2?15:0);
+            const adventurousScore = (intensity*15 + 50) + (jp==='P'?20:0) + (answers[5]===2?10:0);
+            const structuredScore = (jp==='J'?85:55) + (answers[9]===0?15:0) + (answers[5]===0?10:0);
+
+            // 最佳研学搭档 (基于MBTI)
+            const partnerMap = {
+                'E': 'I型小伙伴（互补思考）',
+                'I': 'E型小伙伴（带动气氛）',
+                'S': 'N型伙伴（拓展视野）',
+                'N': 'S型伙伴（落地细节）',
+                'T': 'F型伙伴（照顾感受）',
+                'F': 'T型伙伴（理性分析）',
+                'J': 'P型伙伴（灵活创意）',
+                'P': 'J型伙伴（规划保障）'
+            };
+            const bestPartner = partnerMap[ie] + '、' + partnerMap[sn] + '、' + partnerMap[tf];
+
+            // 名人榜样 (基于MBTI粗略)
+            const famousMap = {
+                'ISTJ': '乔治·华盛顿（严谨治军）', 'ISFJ': '特蕾莎修女（无私奉献）', 'INFJ': '马丁·路德·金（梦想家）', 'INTJ': '艾萨克·牛顿（科学革命）',
+                'ISTP': '李奥纳多·达·芬奇（动手创造）', 'ISFP': '莫扎特（艺术天才）', 'INFP': 'J·K·罗琳（奇幻文学）', 'INTP': '爱因斯坦（相对论）',
+                'ESTP': '欧内斯特·海明威（冒险文学）', 'ESFP': '玛丽莲·梦露（魅力表演）', 'ENFP': '马克·吐温（幽默睿智）', 'ENTP': '理查德·费曼（顽皮物理学家）',
+                'ESTJ': '亨利·福特（工业巨擘）', 'ESFJ': '泰勒·斯威夫特（关爱粉丝）', 'ENFJ': '奥巴马（鼓舞演说）', 'ENTJ': '拿破仑（军事战略）'
+            };
+            const famous = famousMap[mbti] || '未知，但你注定不凡';
+
+            // 根据动物生成悄悄话
+            const whisperMap = {
+                '海豚': '你的热情能点亮整个营地',
+                '狼': '你的洞察会带领团队发现更深的意义',
+                '鹰': '你的远见会指引大家走向更高处',
+                '狮子': '你的领导力让团队充满信心',
+                '海狸': '你的细致让每个任务都完美落地',
+                '大象': '你的温暖让每个人都感到安心',
+                '猫头鹰': '你的智慧总能在关键时刻解决问题',
+                '狐狸': '你的机智让研学充满惊喜',
+                '水獭': '你的活力感染着身边每一个人',
+                '蝴蝶': '你的创意为研学增添色彩',
+                '鹿': '你的安静中蕴含着强大的自然力量',
+                '猫': '你的独立操作能力总能搞定复杂工具',
+                '鹦鹉': '你的口才让汇报环节大放异彩',
+                '马': '你的合作精神让团队无往不利',
+                '狗': '你的忠诚和热情是最佳队友',
+                '狮鹫': '你兼具智慧与勇气，注定不凡'
+            };
+            const whisper = whisperMap[animal.name] || '你的独特视角会让这次研学变得不一样';
+
+            return {
+                mbti, animal, travelImage, colorName, colorHex, uniqueRec, 
+                learnStyle, learnMethod, energySource, decisionPref, actionStyle, fieldTag,
+                scores: [
+                    { label: '探索精神', val: Math.min(exploreScore,98) },
+                    { label: '社交能量', val: Math.min(socialScore,98) },
+                    { label: '动手倾向', val: Math.min(handsOnScore,98) },
+                    { label: '深度思考', val: Math.min(deepThinkScore,98) },
+                    { label: '冒险指数', val: Math.min(adventurousScore,98) },
+                    { label: '规划能力', val: Math.min(structuredScore,98) }
+                ],
+                bestPartner, famous, whisper,
+                description: `你是一位${travelImage}型研学少年，拥有${animal.name}般的${animal.desc}。你偏爱${colorName}，象征${colorName==='森林绿'?'自然生机与探索':(colorName==='古城赭'?'历史厚重与文化':(colorName==='创意橙'?'灵感活力与表达':'未来科技与远见'))}。`
+            };
+        }
+
+        // 渲染报告
+        function showReport(report) {
+            const html = `
+                <!-- 主徽章区 -->
+                <div class="report-card badge-large" style="padding: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="mbti-display">${report.mbti}</span>
+                        <div class="color-dot" style="background: ${report.colorHex};"></div>
+                    </div>
+                    <div class="pill-container">
+                        <span class="pill"><i class="fas fa-hiking"></i> ${report.travelImage}</span>
+                        <span class="pill"><span class="animal-icon">${report.animal.icon}</span> ${report.animal.name} · ${report.animal.desc}</span>
+                        <span class="pill"><i class="fas fa-palette"></i> 专属色: ${report.colorName}</span>
+                        <span class="pill"><i class="fas fa-graduation-cap"></i> ${report.learnStyle}</span>
+                    </div>
+                    <p style="background: #ffffffb3; padding: 16px; border-radius: 28px; font-size: 15px; margin-top: 10px;">✨ ${report.description}</p>
+                </div>
+
+                <!-- 六维能力雷达图（进度条） -->
+                <div class="report-card progress-chart">
+                    <h4 style="margin-bottom: 16px;"><i class="fas fa-chart-pie"></i> 研学六维能量</h4>
+                    ${report.scores.map(s => `
+                        <div class="chart-bar">
+                            <span class="bar-label">${s.label}</span>
+                            <div class="bar-bg"><div class="bar-fill" style="width: ${s.val}%;"></div></div>
+                            <span style="width: 35px;">${s.val}%</span>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- 双卡片：最佳搭档 & 名人榜样 -->
+                <div class="mini-grid">
+                    <div class="mini-card">
+                        <i class="fas fa-user-friends" style="color: #1e3c72; font-size: 22px;"></i>
+                        <h4 style="margin: 8px 0 4px;">最佳研学搭档</h4>
+                        <p style="font-size: 14px;">${report.bestPartner}</p>
+                        <div style="margin-top: 8px; background: #eaf1fb; border-radius: 20px; padding: 6px 12px; font-size:13px;">一起探索，事半功倍</div>
+                    </div>
+                    <div class="mini-card">
+                        <i class="fas fa-star" style="color: #f5b342; font-size: 22px;"></i>
+                        <h4 style="margin: 8px 0 4px;">历史上的你</h4>
+                        <p style="font-size: 14px;">✨ ${report.famous}</p>
+                        <div style="margin-top: 8px; font-size:13px;">同款性格的伟大灵魂</div>
+                    </div>
+                </div>
+
+                <!-- 研学风格深度解析 -->
+                <div class="report-card">
+                    <h4><i class="fas fa-microscope"></i> 性格深度解读（研学版）</h4>
+                    <div class="insight-box">
+                        <p><strong>🔍 认知风格：</strong> ${report.learnStyle} — 你通过${report.learnMethod}吸收知识最快，在研学中应多安排相应环节。</p>
+                        <p><strong>🧭 情绪能量：</strong> ${report.energySource}</p>
+                        <p><strong>🎯 决策偏好：</strong> ${report.decisionPref}</p>
+                        <p><strong>📅 行动方式：</strong> ${report.actionStyle}</p>
+                    </div>
+                </div>
+
+                <!-- 趣味标签云 & 研学寄语 -->
+                <div class="report-card" style="background: linear-gradient(145deg, #ffffff, #f2f9ff);">
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+                        <span class="match-tag" style="background: #ffb66c;">#${report.animal.name}人格</span>
+                        <span class="match-tag" style="background: #6c9ac3;">#${report.travelImage}</span>
+                        <span class="match-tag" style="background: #8f77b5;">#${report.colorName}气质</span>
+                        <span class="match-tag" style="background: #4caf7a;">#${report.fieldTag}</span>
+                    </div>
+                    <div class="quote">
+                        <i class="fas fa-quote-left" style="color:#9bb7d4;"></i> 给孩子的悄悄话：${report.whisper}。研学路上，勇敢做自己！
+                    </div>
+                </div>
+
+                <!-- 推荐研学类型 (无具体商品) -->
+                <div class="report-card" style="text-align: center;">
+                    <i class="fas fa-compass" style="font-size: 30px; color: #1e3c72;"></i>
+                    <h4 style="margin: 8px;">根据特质，优先探索</h4>
+                    <div>
+                        ${report.uniqueRec.map(t => `<span class="match-tag">${t}</span>`).join('')}
+                    </div>
+                    <p style="margin-top: 12px; font-size: 14px;">后续可在平台筛选对应类型，发现专属研学项目</p>
+                </div>
+            `;
+            document.getElementById('reportContent').innerHTML = html;
+        }
+
+        // 提交按钮
+        document.getElementById('submitQuiz').addEventListener('click', function() {
+            const answers = getAnswers();
+            if (!answers) return;
+            const report = computeReport(answers);
+            document.getElementById('quizSection').classList.add('hidden');
+            document.getElementById('reportSection').classList.remove('hidden');
+            showReport(report);
+        });
+
+        // 重新测评
+        document.getElementById('restartQuiz').addEventListener('click', function() {
+            document.getElementById('quizSection').classList.remove('hidden');
+            document.getElementById('reportSection').classList.add('hidden');
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            document.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
+        });
+    })();
+</script>
+</body>
+</html>
+```
